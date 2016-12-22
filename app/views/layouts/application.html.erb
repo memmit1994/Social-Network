@@ -9,6 +9,15 @@
   </head>
 
   <body>
+  <% if current_user %>
+      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+      <%= form_tag users_search_path, :method => 'get' do %>
+          <p>
+            <%= text_field_tag :search, params[:search] %>
+            <%= submit_tag "Search", :name => nil %>
+          </p>
+      <% end %>
+  <% end %>
     <%= yield %>
   </body>
 </html>
