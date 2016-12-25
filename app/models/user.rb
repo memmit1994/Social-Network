@@ -14,10 +14,9 @@ class User < ApplicationRecord
     has_many :posts
     has_many :comments
 
+    acts_as_voter
     acts_as_follower
     acts_as_followable
 
-    acts_as_mentionable
-
-    acts_as_liker
+    self.per_page = 10
 end

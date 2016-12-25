@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
     before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :check_ownership, only: [:edit, :update]
+    respond_to :html, :js
 
     # GET /users
     # GET /users.json
@@ -10,6 +12,7 @@ class UsersController < ApplicationController
     # GET /users/1
     # GET /users/1.json
     def show
+        @activities = PublicActivity::Activity.where(owner: @user).order(created_at: :desc).paginate(page: params[:page], per_page: 10)
     end
 
     # GET /users/new
@@ -61,6 +64,14 @@ class UsersController < ApplicationController
         end
     end
 
+    def friends
+        @friends = @user.following_users.paginate(page: params[:page])
+    end
+
+    def followers
+        @followers = @user.user_followers.paginate(page: params[:page])
+    end
+
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -70,5 +81,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
         params.require(:user).permit(:fname, :lname, :nickname, :gender, :birthdate, :hometown, :marital_status, :bio)
+    end
+
+    def check_ownership
+        redirect_to current_user, notice: 'Not Authorized' unless @user == current_user
     end
 end
