@@ -3,27 +3,27 @@
 <h1>Posts</h1>
 
 <table>
-  <thead>
+    <thead>
     <tr>
-      <th>Content</th>
-      <th>Comments count</th>
-      <th>Likes count</th>
-      <th colspan="3"></th>
+        <th>Content</th>
+        <th>Comments count</th>
+        <th>Likes count</th>
+        <th colspan="3"></th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
+    <tbody>
     <% @posts.each do |post| %>
-      <tr>
-        <td><%= post.content %></td>
-        <td><%= post.comments_count %></td>
-        <td><%= post.likes_count %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <tr>
+            <td><%= post.content %></td>
+            <td><%= post.comments_count %></td>
+            <td><%= post.likes_count %></td>
+            <td><%= link_to 'Show', post %></td>
+            <td><%= link_to 'Edit', edit_post_path(post) %></td>
+            <td><%= link_to 'Destroy', post, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        </tr>
     <% end %>
-  </tbody>
+    </tbody>
 </table>
 
 <br>

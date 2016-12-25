@@ -4,64 +4,64 @@
     <%= devise_error_messages! %>
 
     <div class="field">
-      <%= f.label :fname %>
-      <%= f.text_field :fname %>
+        <%= f.label :fname %>
+        <%= f.text_field :fname %>
     </div>
 
     <div class="field">
-      <%= f.label :lname %>
-      <%= f.text_field :lname %>
+        <%= f.label :lname %>
+        <%= f.text_field :lname %>
     </div>
 
     <div class="field">
-      <%= f.label :nickname %>
-      <%= f.text_field :nickname %>
+        <%= f.label :nickname %>
+        <%= f.text_field :nickname %>
     </div>
 
     <div class="field">
-      <%= f.label :gender %>
-      <%= f.select :gender, options_for_select(User.genders.keys) %>
+        <%= f.label :gender %>
+        <%= f.select :gender, options_for_select(User.genders.keys) %>
     </div>
 
     <div class="field">
-      <%= f.label :birthdate %>
-      <%= f.date_select :birthdate %>
+        <%= f.label :birthdate %>
+        <%= f.date_select :birthdate %>
     </div>
 
     <div class="field">
-      <%= f.label :hometown %>
-      <%= f.text_field :hometown %>
+        <%= f.label :hometown %>
+        <%= f.text_field :hometown %>
     </div>
 
     <div class="field">
-      <%= f.label :marital_status %>
-      <%= f.select :marital_status, options_for_select(User.marital_statuses.keys) %>
+        <%= f.label :marital_status %>
+        <%= f.select :marital_status, options_for_select(User.marital_statuses.keys) %>
     </div>
 
     <div class="field">
-      <%= f.label :bio %>
-      <%= f.text_area :bio %>
+        <%= f.label :bio %>
+        <%= f.text_area :bio %>
     </div>
     <div class="field">
-      <%= f.label :email %><br/>
-      <%= f.email_field :email, autofocus: true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :password %>
-      <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %><br/>
-      <%= f.password_field :password, autocomplete: "off" %>
+        <%= f.label :email %><br/>
+        <%= f.email_field :email, autofocus: true %>
     </div>
 
     <div class="field">
-      <%= f.label :password_confirmation %><br/>
-      <%= f.password_field :password_confirmation, autocomplete: "off" %>
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %><br/>
+        <%= f.password_field :password, autocomplete: "off" %>
+    </div>
+
+    <div class="field">
+        <%= f.label :password_confirmation %><br/>
+        <%= f.password_field :password_confirmation, autocomplete: "off" %>
     </div>
 
     <div class="actions">
-      <%= f.submit "Sign up" %>
+        <%= f.submit "Sign up" %>
     </div>
 <% end %>
 
