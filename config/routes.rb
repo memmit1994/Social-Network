@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'main/newsfeed'
+
     resources :comments, only: [:create, :destroy]
     resources :posts
 
@@ -20,4 +22,5 @@ Rails.application.routes.draw do
     match :unfollow, to: 'follows#destroy', as: :unfollow, via: :post
     match :like, to: 'likes#create', as: :like, via: :post
     match :unlike, to: 'likes#destroy', as: :unlike, via: :post
+
 end
