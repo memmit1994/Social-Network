@@ -6224,14 +6224,14 @@ button.close {
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
+
 .text:hover {
     opacity:1;
-}
 }
 
 img {
     z-index:1;
 }
 
-}
+
 /*# sourceMappingURL=bootstrap.css.map */
