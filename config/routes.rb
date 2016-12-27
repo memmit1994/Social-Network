@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy]
     resources :posts
 
-    root to: 'users#index'
+    root to: 'main#newsfeed'
     devise_for :users do
         get '/users/sign_out' => 'devise/sessions#destroy'
     end

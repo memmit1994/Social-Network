@@ -10,21 +10,13 @@
             </ul>
         </div>
     <% end %>
-
+    <%= f.hidden_field :user_id,:value => current_user.id %>
     <div class="field">
         <%= f.label :content %>
         <%= f.text_area :content %>
     </div>
 
-    <div class="field">
-        <%= f.label :comments_count %>
-        <%= f.number_field :comments_count %>
-    </div>
 
-    <div class="field">
-        <%= f.label :likes_count %>
-        <%= f.number_field :likes_count %>
-    </div>
 
     <div class="actions">
         <%= f.submit %>
