@@ -1,4 +1,5 @@
 class MainController < ApplicationController
-  def newsfeed
-  end
+    def newsfeed
+        render 'main/index'
+    end
 end

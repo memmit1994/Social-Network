@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'main/newsfeed'
+    get 'main/newsfeed'
 
     resources :comments, only: [:create, :destroy]
     resources :posts
