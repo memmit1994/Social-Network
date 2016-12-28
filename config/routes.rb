@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-    post 'main/add_like'
+
     get 'main/newsfeed'
     get 'main/friends'
     get 'main/profile'
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
             get :friends
             get :followers
             get :deactivate
+            put 'add_friend' =>'users#add_friend'
         end
     end
 

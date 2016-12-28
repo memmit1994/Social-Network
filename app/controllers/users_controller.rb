@@ -13,6 +13,8 @@ class UsersController < ApplicationController
     # GET /users/1.json
     def show
         @activities = PublicActivity::Activity.where(owner: @user).order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+        @posts = Post.where(user_id:@user.id)
+        @same_user = current_user.id == @user.id
     end
 
     # GET /users/new
@@ -72,6 +74,13 @@ class UsersController < ApplicationController
         @followers = @user.user_followers.paginate(page: params[:page])
     end
 
+    def add_friend
+        if Friendship.create(user1_id:@user.id,user2_id:current_user.id)
+            respond_to do |format|
+                format.js
+            end
+        end
+    end
     private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -7,7 +7,7 @@
     <div class="sidebar-toggle-box">
       <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
-    <!--logo start--><a href="index.html" class="logo"><img src="/assets/img/logo.png" width="90px"></a><!--logo end-->
+    <!--logo start--><a href="/main/newsfeed" class="logo"><img src="/assets/img/logo.png" width="90px"></a><!--logo end-->
     <div class="nav notify-row" id="top_menu">
       <!--  notification start -->
       <ul class="nav top-menu">
@@ -172,11 +172,20 @@
       <ul class="sidebar-menu" id="nav-accordion">
 
         <p class="centered">
-          <a href="profile.html.erb"><img src="/assets/img/profile.png" class="img-circle" width="60"></a>
+
+          <a href="/users/<%= current_user.id %>">
+            <% if current_user.avatar.exists? %>
+              <%= image_tag current_user.avatar.url, class:'img-circle', style:'width:60;' %>
+            <% elsif current_user.male? %>
+                <img src="/assets/img/profile.png" class="img-circle" width="60">
+            <% else %>
+                <img src="/assets/img/profileF.png" class="img-circle" width="60">
+            <% end %>
+          </a>
         </p>
         <h5 class="centered"><%= current_user.nickname %></h5>
         <li class="mt">
-          <a class="active" href="index.html"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
+          <a class="active" href="/main/newsfeed"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
         </li>
         <li class="sub-menu">
           <ul class="sub">
@@ -252,18 +261,24 @@
           <% @posts.each do |post| %>
               <!-- Blog Post Content Column -->
 
-                <div class="col-lg-9">
+              <div class="col-lg-9">
 
-                  <div class="well" id="post-<%= post.id %>">
+                <div class="well" id="post-<%= post.id %>">
                   <!-- Blog Post -->
 
                   <!-- Title -->
                   <p class="lead">
 
-
-                    <a class="pull-left" href="#">
-                      <img align="middle" src="/assets/img/profile.png" class="img-circle img-responsive" alt="Placeholder image" width="50px" height="50px">
+                    <a class="pull-left" href="/users/<%= current_user.id %>">
+                      <% if current_user.avatar.exists? %>
+                          <%= image_tag current_user.avatar.url, class:'img-circle img-responsive', style:'width:50px;height:50px;' %>
+                      <% elsif current_user.male? %>
+                          <img src="/assets/img/profile.png" class="img-circle img-responsive" width="50px" height="50px">
+                      <% else %>
+                          <img src="/assets/img/profileF.png" class="img-circle img-responsive" width="50px" height="50px">
+                      <% end %>
                     </a>
+
                   <div class="media-body">
                     <h4 class="media-heading"><%= User.find(post.user_id).nickname %>
 
@@ -288,7 +303,9 @@
                   <br>
 
                   <%= link_to '<i class="fa fa-check" ></i> Like'.html_safe, like_post_path(post), class: 'btn btn-theme02', method: :put, remote: true %>
-                    <%= link_to '<i class="icon-remove-sign" ></i> Delete'.html_safe, post, class: 'btn btn-danger', method: :delete, remote: true %>
+                  <% if post.user_id == current_user.id %>
+                      <%= link_to '<i class="icon-remove-sign" ></i> Delete'.html_safe, post, class: 'btn btn-danger', method: :delete, remote: true %>
+                  <% end %>
                   <p id="post-<%= post.id %>-likes"><%= pluralize(post.votes_for.size, 'like') %></p>
 
                   <!-- Blog Comments -->
@@ -323,10 +340,6 @@
                   <!--</div>-->
                   <!--</div>-->
                   <!--<hr>-->
-
-
-
-
 
 
                 </div>
