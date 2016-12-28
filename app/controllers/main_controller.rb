@@ -18,8 +18,11 @@ class MainController < ApplicationController
     end
 
     def search
-        query = "SELECT * FROM users WHERE fname LIKE '%#{params[:search]}%' OR lname LIKE '%#{params[:search]}%' OR nickname LIKE '%#{params[:search]}%'
-                OR email LIKE '%#{params[:search]}%' OR hometown LIKE '%#{params[:search]}%'"
+        query = "SELECT * FROM users WHERE fname LIKE '%#{params[:search]}%' OR lname LIKE '%#{params[:search]}%' OR nickname LIKE '%#{params[:search]}%' OR email LIKE '%#{params[:search]}%'
+                UNION
+                SELECT * FROM users WHERE users.hometown_id = (SELECT id FROM hometowns WHERE city LIKE '%#{params[:search]}%')
+                UNION
+                SELECT * FROM users WHERE users.id = (SELECT user_id FROM posts WHERE content LIKE '%#{params[:search]}%')"
         @users = User.find_by_sql(query)
 
         print(@users)

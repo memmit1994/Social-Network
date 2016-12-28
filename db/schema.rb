@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161228034852) do
+ActiveRecord::Schema.define(version: 20161228055037) do
 
   create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "trackable_type"
@@ -29,12 +29,11 @@ ActiveRecord::Schema.define(version: 20161228034852) do
   end
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "content",      limit: 65535
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.text     "content",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "post_id"
     t.integer  "user_id"
-    t.integer  "likers_count",               default: 0
     t.index ["post_id"], name: "index_comments_on_post_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
@@ -59,24 +58,9 @@ ActiveRecord::Schema.define(version: 20161228034852) do
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "likes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "liker_type"
-    t.integer  "liker_id"
-    t.string   "likeable_type"
-    t.integer  "likeable_id"
-    t.datetime "created_at"
-    t.index ["likeable_id", "likeable_type"], name: "fk_likeables", using: :btree
-    t.index ["liker_id", "liker_type"], name: "fk_likes", using: :btree
-  end
-
-  create_table "mentions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "mentioner_type"
-    t.integer  "mentioner_id"
-    t.string   "mentionable_type"
-    t.integer  "mentionable_id"
-    t.datetime "created_at"
-    t.index ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
-    t.index ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
+  create_table "hometowns", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "city"
+    t.string "country"
   end
 
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -88,7 +72,6 @@ ActiveRecord::Schema.define(version: 20161228034852) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.integer  "likers_count",                     default: 0
     t.boolean  "public",                           default: false
     t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
   end
@@ -106,7 +89,6 @@ ActiveRecord::Schema.define(version: 20161228034852) do
     t.string   "nickname"
     t.integer  "gender"
     t.date     "birthdate"
-    t.string   "hometown"
     t.integer  "marital_status"
     t.text     "bio",                    limit: 65535
     t.datetime "created_at",                                        null: false
@@ -121,15 +103,14 @@ ActiveRecord::Schema.define(version: 20161228034852) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "followees_count",                      default: 0
-    t.integer  "likees_count",                         default: 0
-    t.integer  "followers_count",                      default: 0
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.integer  "posts_count"
+    t.integer  "hometown_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["hometown_id"], name: "index_users_on_hometown_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
@@ -150,4 +131,5 @@ ActiveRecord::Schema.define(version: 20161228034852) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "users", "hometowns"
 end
