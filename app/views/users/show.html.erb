@@ -175,19 +175,19 @@
                 <p class="centered">
                     <a href="profile.html"><img src="/assets/img/profile.png" class="img-circle" width="60"></a></p>
                 <h5 class="centered"><%= @user.nickname %></h5>
-                <li class="mt"><a href="/main/newsfeed"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
+                <li class="mt"><a href="/newsfeed"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
                 </li>
                 <li class="sub-menu">
 
                 <li class="sub-menu">
-                    <a class="active" href="/main/profile">
+                    <a class="active" href="/profile">
                         <i class="fa fa-cogs"></i>
                         <span>Profile</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="/main/friends">
+                    <a href="/friends">
                         <i class="fa fa-th"></i>
                         <span>Fiends</span>
                     </a>
@@ -214,8 +214,7 @@
                             <img align="middle" src="/assets/img/profile.png" class="img-circle img-responsive" alt="Placeholder image"></a>
                         <div align="center">
                             <h1 class="text-center"><%= @user.nickname %></h1>
-                            <p><strong>About me</strong></p>
-                            <p><%= @user.bio == '' ? 'No info' : @user.bio %> </p></div>
+                        </div>
                         <% if not @same_user %>
                             <%= link_to 'Send Friend Request', add_friend_user_path(@user), class: 'btn btn-theme02', method: :put, remote: true %>
                         <% end %>
