@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
 
-    get 'main/newsfeed'
-    get 'main/friends'
-    get 'main/profile'
-    get 'main/login'
+    get 'newsfeed' => 'main#newsfeed'
+    get 'friends' => 'main#friends'
+    get 'profile' => 'main#profile'
+    get 'login' => 'main#login'
+    post 'search' => 'main#search'
 
     resources :comments, only: [:create, :destroy]
     resources :posts do

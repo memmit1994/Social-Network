@@ -16,4 +16,12 @@ class MainController < ApplicationController
     def friends
         @friends = current_user.friends
     end
+
+    def search
+        query = "SELECT * FROM users WHERE fname LIKE '%#{params[:search]}%' OR lname LIKE '%#{params[:search]}%' OR nickname LIKE '%#{params[:search]}%'
+                OR email LIKE '%#{params[:search]}%' OR hometown LIKE '%#{params[:search]}%'"
+        @users = User.find_by_sql(query)
+
+        print(@users)
+    end
 end

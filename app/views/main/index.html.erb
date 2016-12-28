@@ -7,7 +7,7 @@
         <div class="sidebar-toggle-box">
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
-        <!--logo start--><a href="/main/newsfeed" class="logo"><img src="/assets/img/logo.png" width="90px"></a><!--logo end-->
+        <!--logo start--><a href="/newsfeed" class="logo"><img src="/assets/img/logo.png" width="90px"></a><!--logo end-->
         <div class="nav notify-row" id="top_menu">
             <!--  notification start -->
             <ul class="nav top-menu">
@@ -149,12 +149,20 @@
             <!--  notification end -->
         </div>
         <div class="top-menu">
-            <form class="navbar-form navbar-left" role="search">
+            <!--<form class="navbar-form navbar-left" role="search">-->
+            <!--<div class="form-group">-->
+            <!--<input type="text" class="form-control" placeholder="Search">-->
+            <!--</div>-->
+            <!--<button type="submit" class="btn btn-default">Search</button>-->
+            <!--</form>-->
+
+            <%= form_tag({controller: 'main', action: 'search'}, {class: 'navbar-form navbar-left'}) do %>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <%= text_field_tag :search, params[:search], class: 'form-control' %>
                 </div>
-                <button type="submit" class="btn btn-default">Search</button>
-            </form>
+                <%= submit_tag "Search", class: 'btn btn-default' %>
+            <% end %>
+
             <ul class="nav pull-right top-menu">
                 <li><%= link_to('Logout', destroy_user_session_path, :method => :delete, class: 'logout') %></li>
             </ul>
@@ -184,18 +192,18 @@
                 </p>
                 <h5 class="centered"><%= current_user.nickname %></h5>
                 <li class="mt">
-                    <a class="active" href="/main/newsfeed"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
+                    <a class="active" href="/newsfeed"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="/main/profile">
+                    <a href="/profile">
                         <i class="fa fa-cogs"></i>
                         <span>Profile</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="/main/friends">
+                    <a href="/friends">
                         <i class="fa fa-th"></i>
                         <span>Friends</span>
                     </a>
@@ -470,23 +478,9 @@
                         </div>
                     </div>
 
-                    <!-- CALENDAR-->
-                    <div id="calendar" class="mb">
-                        <div class="panel green-panel no-margin">
-                            <div class="panel-body">
-                                <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
-                                    <div class="arrow"></div>
-                                    <h3 class="popover-title" style="disadding: none;"></h3>
-                                    <div id="date-popover-content" class="popover-content"></div>
-                                </div>
-                                <div id="my-calendar"></div>
-                            </div>
-                        </div>
-                    </div><!-- / calendar -->
-
                 </div><!-- /col-lg-3 -->
             </div>
-            <! --/row -->
+            <!--/row -->
         </section>
     </section>
 

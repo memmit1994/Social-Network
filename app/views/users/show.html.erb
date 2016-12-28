@@ -216,7 +216,7 @@
                             <p><strong>About me</strong></p>
                             <p><%= @user.bio == '' ? 'No info' : @user.bio %> </p></div>
                         <% if not @same_user %>
-                            <%= link_to 'Send Friend Request', add_friend_path(@user), class: 'btn btn-theme02', method: :put, remote: true %>
+                            <%= link_to 'Send Friend Request', add_friend_user_path(@user), class: 'btn btn-theme02', method: :put, remote: true %>
                         <% end %>
                     </div>
 

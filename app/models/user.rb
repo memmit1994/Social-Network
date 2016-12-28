@@ -15,7 +15,7 @@ class User < ApplicationRecord
     has_many :comments
 
     has_many :friendships, :foreign_key => 'user1_id',
-             :class_name => 'Friendship'
+        :class_name => 'Friendship'
 
     has_many :friends, :through => :friendships
 
@@ -26,7 +26,9 @@ class User < ApplicationRecord
 
     self.per_page = 10
 
-    has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }
+    has_attached_file :avatar, styles: {medium: "300x300>", thumb: "100x100>"}
     validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
+
+    include Filterable
 
 end
