@@ -230,17 +230,16 @@
         <div class="col-lg-9 main-chart">
 
           <h4 class="mb"><i class="fa fa-angle-right"></i> Update Status</h4>
-          <%= form_for(@post,html: { multipart: true ,:class => 'form-horizontal style-form'}) do |f| %>
+          <%= form_for(@post, html: {multipart: true, :class => 'form-horizontal style-form'}) do |f| %>
               <div class="form-group">
                 <div class="col-sm-10">
-
-
-              <%= f.text_area :content,class:'form-control' %>
+                  <%= f.hidden_field :user_id, value: current_user.id %>
+                  <%= f.text_area :content, class: 'form-control' %>
 
                   <div style="margin-bottom:1em;"></div>
                   <button type="submit" class="btn btn-theme" style="float: right;">Post</button>
-                  <!--<button type="submit" class="btn btn-theme">Upload</button>-->
-                  <%= f.file_field :photo,html: {style:'display:none'} %>
+                  <a class="btn btn-theme" id="file-upload">Upload</a>
+                  <%= f.file_field :photo, style: 'display:none', id: 'real-file-upload' %>
                   <hr>
                 </div>
 
@@ -250,115 +249,88 @@
 
 
 
-          <% @user_posts.each do |post| %>
-          <!-- Blog Post Content Column -->
+          <% @posts.each do |post| %>
+              <!-- Blog Post Content Column -->
 
-          <div class="col-lg-9">
+                <div class="col-lg-9">
 
+                  <div class="well" id="post-<%= post.id %>">
+                  <!-- Blog Post -->
 
-            <!-- Blog Post -->
-
-            <!-- Title -->
-            <p class="lead">
-
-
-              <a class="pull-left" href="#">
-                <img align="middle" src="/assets/img/profile.png" class="img-circle img-responsive" alt="Placeholder image" width="50px" height="50px">
-              </a>
-            <div class="media-body">
-              <h4 class="media-heading"><%= current_user.nickname %>
-
-              </h4>
-
-            </div>
+                  <!-- Title -->
+                  <p class="lead">
 
 
-            <!-- Date/Time --><br>
+                    <a class="pull-left" href="#">
+                      <img align="middle" src="/assets/img/profile.png" class="img-circle img-responsive" alt="Placeholder image" width="50px" height="50px">
+                    </a>
+                  <div class="media-body">
+                    <h4 class="media-heading"><%= User.find(post.user_id).nickname %>
 
-            <p><span class="glyphicon glyphicon-time"></span> Posted on <%= post.created_at.strftime('%B %-d, %Y at %I:%M %p') %></p>
+                    </h4>
+
+                  </div>
 
 
-            <!-- Post Content -->
-            <p class="lead">
-            <h5><%= post.content %></h5></p>
-            <!-- Preview Image -->
-            <% if post.photo.exists? %>
-            <%= image_tag post.photo.url,class:'img-responsive' %>
-            <% end %>
-            <br>
+                  <!-- Date/Time --><br>
 
-            <button type="button" class="btn btn-theme02"><i class="fa fa-check"></i> Like</button>
-            <!-- Blog Comments -->
+                  <p><span class="glyphicon glyphicon-time"></span> Posted
+                    on <%= post.created_at.strftime('%B %-d, %Y at %I:%M %p') %></p>
 
-            <!-- Comments Form -->
-            <div class="well">
-              <h5>Leave a Comment:</h5>
-              <form role="form">
-                <div class="form-group">
-                  <textarea class="form-control" rows="3"></textarea>
+
+                  <!-- Post Content -->
+                  <p class="lead">
+                  <h5><%= post.content %></h5></p>
+                  <!-- Preview Image -->
+                  <% if post.photo.exists? %>
+                      <%= image_tag post.photo.url, class: 'img-responsive' %>
+                  <% end %>
+                  <br>
+
+                  <%= link_to '<i class="fa fa-check" ></i> Like'.html_safe, like_post_path(post), class: 'btn btn-theme02', method: :put, remote: true %>
+                    <%= link_to '<i class="icon-remove-sign" ></i> Delete'.html_safe, post, class: 'btn btn-danger', method: :delete, remote: true %>
+                  <p id="post-<%= post.id %>-likes"><%= pluralize(post.votes_for.size, 'like') %></p>
+
+                  <!-- Blog Comments -->
+
+                  <!--&lt;!&ndash; Comments Form &ndash;&gt;-->
+                  <!--<div class="well">-->
+                  <!--<h5>Leave a Comment:</h5>-->
+                  <!--<form role="form">-->
+                  <!--<div class="form-group">-->
+                  <!--<textarea class="form-control" rows="3"></textarea>-->
+                  <!--</div>-->
+                  <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                  <!--</form>-->
+                  <!--</div>-->
+
+
+                  <!-- Posted Comments -->
+
+                  <!--&lt;!&ndash; Comment &ndash;&gt;-->
+                  <!--<div class="media">-->
+                  <!--<a class="pull-left" href="#">-->
+                  <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
+                  <!--</a>-->
+                  <!--<div class="media-body">-->
+                  <!--<h4 class="media-heading">Start Bootstrap-->
+                  <!--<small>August 25, 2014 at 9:30 PM</small>-->
+                  <!--</h4>-->
+                  <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante-->
+                  <!--sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra-->
+                  <!--turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue-->
+                  <!--felis in faucibus.-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<hr>-->
+
+
+
+
+
+
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
-
-
-            <!-- Posted Comments -->
-
-            <!-- Comment -->
-            <div class="media">
-              <a class="pull-left" href="#">
-                <img class="media-object" src="http://placehold.it/64x64" alt="">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Start Bootstrap
-                  <small>August 25, 2014 at 9:30 PM</small>
-                </h4>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-                felis in faucibus.
               </div>
-            </div>
-
-
-            <hr>
-
-            <div class="row mtbox">
-              <div class="col-md-2 col-sm-2 col-md-offset-1 box0">
-
-
-              </div>
-
-            </div><!-- /row mt -->
-
-
-            <div class="row mt">
-              <!-- SERVER STATUS PANELS -->
-              <div class="col-md-4 col-sm-4 mb">
-
-
-                <! --/grey-panel -->
-              </div><!-- /col-md-4-->
-
-
-              <div class="col-md-4 col-sm-4 mb"></div><!-- /col-md-4 -->
-
-              <div class="col-md-4 mb">
-                <!-- WHITE PANEL - TOP USER -->                        </div><!-- /col-md-4 -->
-
-
-            </div><!-- /row -->
-
-
-            <div class="row">
-
-
-            </div><!-- /row -->
-
-            <div class="row mt">
-
-            </div><!-- /row -->
-          </div>
           <% end %>
         </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
@@ -528,6 +500,7 @@
   <!--footer end-->
 </section>
 <script type="application/javascript">
+
     $(document).ready(function () {
         $("#date-popover").popover({html: true, trigger: "manual"});
         $("#date-popover").hide();
@@ -560,4 +533,11 @@
         var to = $("#" + id).data("to");
         console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
+
+    $(document).ready(function () {
+        $('#file-upload').click(function () {
+            $('#real-file-upload').trigger('click');
+        });
+        $('a')
+    });
 </script>

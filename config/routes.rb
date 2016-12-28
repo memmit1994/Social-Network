@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
+    post 'main/add_like'
     get 'main/newsfeed'
     get 'main/friends'
     get 'main/profile'
     get 'main/login'
 
     resources :comments, only: [:create, :destroy]
-    resources :posts
+    resources :posts do
+      member do
+        put 'like' => 'posts#like'
+      end
+    end
 
     root to: 'main#newsfeed'
     devise_for :users do
