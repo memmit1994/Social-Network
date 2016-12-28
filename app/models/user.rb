@@ -12,17 +12,13 @@ class User < ApplicationRecord
     enum marital_status: [:single, :engaged, :married]
 
     has_many :posts
-    has_many :comments
 
     has_many :friendships, :foreign_key => 'user1_id',
         :class_name => 'Friendship'
 
     has_many :friends, :through => :friendships
 
-
     acts_as_voter
-    # acts_as_follower
-    # acts_as_followable
 
     self.per_page = 10
 

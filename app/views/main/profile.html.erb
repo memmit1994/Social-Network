@@ -280,36 +280,6 @@
                             <button type="button" class="btn btn-theme02"><i class="fa fa-check"></i> Like</button>
                             <!-- Blog Comments -->
 
-                            <!-- Comments Form -->
-                            <div class="well">
-                                <h5>Leave a Comment:</h5>
-                                <form role="form">
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="3"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                            </div>
-
-
-                            <!-- Posted Comments -->
-
-                            <!-- Comment -->
-                            <% post.comments.each do |comment| %>
-                                <div class="media">
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object" src="/assets/img/profileF.png" alt="" width="64">
-                                    </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><%= comment.user.nickname %>
-                                            <small><%= post.comment.updated_at %></small>
-                                        </h4>
-                                        <%= comment.content %>
-                                    </div>
-                                </div>
-                            <% end %>
-
-
                             <hr>
 
                             <div class="row mtbox">
