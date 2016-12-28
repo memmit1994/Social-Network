@@ -51,16 +51,6 @@ ActiveRecord::Schema.define(version: 20161228062647) do
     t.index ["liker_id", "liker_type"], name: "fk_likes", using: :btree
   end
 
-  create_table "mentions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "mentioner_type"
-    t.integer  "mentioner_id"
-    t.string   "mentionable_type"
-    t.integer  "mentionable_id"
-    t.datetime "created_at"
-    t.index ["mentionable_id", "mentionable_type"], name: "fk_mentionables", using: :btree
-    t.index ["mentioner_id", "mentioner_type"], name: "fk_mentions", using: :btree
-  end
-
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "content",            limit: 65535
     t.datetime "created_at",                                       null: false

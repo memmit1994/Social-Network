@@ -1,7 +1,7 @@
 class MainController < ApplicationController
     def newsfeed
         @post = Post.new(user_id: current_user.id)
-        @posts = Post.where(public: true).or(Post.where(user_id: current_user.id))
+        @posts = Post.where(public: true).or(Post.where(user_id: current_user.id)).order(updated_at: :desc)
         render 'main/index'
     end
 
