@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :set_user, only: [:show, :edit, :update, :destroy, :add_friend]
     before_action :check_ownership, only: [:edit, :update]
     respond_to :html, :js
 
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
     end
 
     def add_friend
-        if Friendship.create(user1_id: @user.id, user2_id: current_user.id)
+        if Friendship.create(user1_id: params[:user_id], user2_id: current_user.id)
             respond_to do |format|
                 format.js
             end
