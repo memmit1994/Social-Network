@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161225214237) do
+ActiveRecord::Schema.define(version: 20161227221547) do
 
   create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "trackable_type"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20161225214237) do
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.integer  "likers_count",                     default: 0
+    t.boolean  "public"
     t.index ["user_id"], name: "index_posts_on_user_id", using: :btree
   end
 
@@ -127,6 +128,7 @@ ActiveRecord::Schema.define(version: 20161225214237) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.integer  "posts_count"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

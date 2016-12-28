@@ -3,14 +3,14 @@ class Post < ApplicationRecord
     validates_presence_of :user
 
     belongs_to :user
-    has_many :comments
+    # has_many :comments
 
-    has_attached_file :photo
+    has_attached_file :photo,styles: { medium: "300x300>", thumb: "100x100>",large: '900x300>' }
     validates_attachment_content_type :photo, content_type: /\Aimage\/.*\z/
 
     counter_culture :user
     acts_as_votable
-    acts_as_commentable
+    # acts_as_commentable
 
     include PublicActivity::Model
     tracked only: [:create, :like], owner: proc { |_controller, model| model.user }

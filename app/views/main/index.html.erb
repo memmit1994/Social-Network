@@ -156,7 +156,7 @@
         <button type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav pull-right top-menu">
-        <li><a class="logout" href="login.html.erb">Logout</a></li>
+        <li><%= link_to('Logout', destroy_user_session_path, :method => :delete, class: 'logout') %></li>
       </ul>
     </div>
   </header>
@@ -174,7 +174,7 @@
         <p class="centered">
           <a href="profile.html.erb"><img src="/assets/img/profile.png" class="img-circle" width="60"></a>
         </p>
-        <h5 class="centered">Username</h5>
+        <h5 class="centered"><%= current_user.nickname %></h5>
         <li class="mt">
           <a class="active" href="index.html"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
         </li>
@@ -230,131 +230,108 @@
         <div class="col-lg-9 main-chart">
 
           <h4 class="mb"><i class="fa fa-angle-right"></i> Update Status</h4>
-          <form class="form-horizontal style-form" method="get">
-            <div class="form-group">
-              <div class="col-sm-10">
-                <input type="text" class="form-control"><br>
+          <%= form_for(@post, html: {multipart: true, :class => 'form-horizontal style-form'}) do |f| %>
+              <div class="form-group">
+                <div class="col-sm-10">
+                  <%= f.hidden_field :user_id, value: current_user.id %>
+                  <%= f.text_area :content, class: 'form-control' %>
 
-                <button type="submit" class="btn btn-theme" style="float: right;">Post</button>
-                <button type="submit" class="btn btn-theme">Upload</button>
-                <hr>
-              </div>
-
-            </div>
-          </form>
-
-
-          <!-- Blog Post Content Column -->
-
-          <div class="col-lg-9">
-            <h4>Newsfeed</h4><br>
-
-
-            <!-- Blog Post -->
-
-            <!-- Title -->
-            <p class="lead">
-
-
-              <a class="pull-left" href="#">
-                <img align="middle" src="/assets/img/profile.png" class="img-circle img-responsive" alt="Placeholder image" width="50px" height="50px">
-              </a>
-            <div class="media-body">
-              <h4 class="media-heading"> Username
-
-              </h4>
-
-            </div>
-
-
-            <!-- Date/Time --><br>
-
-            <p><span class="glyphicon glyphicon-time"></span> Posted on August 24, 2013 at 9:00 PM</p>
-
-
-            <!-- Post Content -->
-            <p class="lead">
-            <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut,
-              error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos
-              magni recusandae laborum minus inventore?</h5></p>
-
-
-            <!-- Preview Image -->
-            <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-            <br>
-
-            <button type="button" class="btn btn-theme02"><i class="fa fa-check"></i> Like</button>
-            <!-- Blog Comments -->
-
-            <!-- Comments Form -->
-            <div class="well">
-              <h5>Leave a Comment:</h5>
-              <form role="form">
-                <div class="form-group">
-                  <textarea class="form-control" rows="3"></textarea>
+                  <div style="margin-bottom:1em;"></div>
+                  <button type="submit" class="btn btn-theme" style="float: right;">Post</button>
+                  <a class="btn btn-theme" id="file-upload">Upload</a>
+                  <%= f.file_field :photo, style: 'display:none', id: 'real-file-upload' %>
+                  <hr>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
-
-
-            <!-- Posted Comments -->
-
-            <!-- Comment -->
-            <div class="media">
-              <a class="pull-left" href="#">
-                <img class="media-object" src="http://placehold.it/64x64" alt="">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Start Bootstrap
-                  <small>August 25, 2014 at 9:30 PM</small>
-                </h4>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-                felis in faucibus.
-              </div>
-            </div>
-
-
-            <hr>
-
-            <div class="row mtbox">
-              <div class="col-md-2 col-sm-2 col-md-offset-1 box0">
-
 
               </div>
-
-            </div><!-- /row mt -->
-
-
-            <div class="row mt">
-              <!-- SERVER STATUS PANELS -->
-              <div class="col-md-4 col-sm-4 mb">
+          <% end %>
 
 
-                <! --/grey-panel -->
-              </div><!-- /col-md-4-->
 
 
-              <div class="col-md-4 col-sm-4 mb"></div><!-- /col-md-4 -->
+          <% @posts.each do |post| %>
+              <!-- Blog Post Content Column -->
 
-              <div class="col-md-4 mb">
-                <!-- WHITE PANEL - TOP USER -->                        </div><!-- /col-md-4 -->
+                <div class="col-lg-9">
+
+                  <div class="well" id="post-<%= post.id %>">
+                  <!-- Blog Post -->
+
+                  <!-- Title -->
+                  <p class="lead">
 
 
-            </div><!-- /row -->
+                    <a class="pull-left" href="#">
+                      <img align="middle" src="/assets/img/profile.png" class="img-circle img-responsive" alt="Placeholder image" width="50px" height="50px">
+                    </a>
+                  <div class="media-body">
+                    <h4 class="media-heading"><%= User.find(post.user_id).nickname %>
+
+                    </h4>
+
+                  </div>
 
 
-            <div class="row">
+                  <!-- Date/Time --><br>
+
+                  <p><span class="glyphicon glyphicon-time"></span> Posted
+                    on <%= post.created_at.strftime('%B %-d, %Y at %I:%M %p') %></p>
 
 
-            </div><!-- /row -->
+                  <!-- Post Content -->
+                  <p class="lead">
+                  <h5><%= post.content %></h5></p>
+                  <!-- Preview Image -->
+                  <% if post.photo.exists? %>
+                      <%= image_tag post.photo.url, class: 'img-responsive' %>
+                  <% end %>
+                  <br>
 
-            <div class="row mt">
+                  <%= link_to '<i class="fa fa-check" ></i> Like'.html_safe, like_post_path(post), class: 'btn btn-theme02', method: :put, remote: true %>
+                    <%= link_to '<i class="icon-remove-sign" ></i> Delete'.html_safe, post, class: 'btn btn-danger', method: :delete, remote: true %>
+                  <p id="post-<%= post.id %>-likes"><%= pluralize(post.votes_for.size, 'like') %></p>
 
-            </div><!-- /row -->
-          </div>
+                  <!-- Blog Comments -->
+
+                  <!--&lt;!&ndash; Comments Form &ndash;&gt;-->
+                  <!--<div class="well">-->
+                  <!--<h5>Leave a Comment:</h5>-->
+                  <!--<form role="form">-->
+                  <!--<div class="form-group">-->
+                  <!--<textarea class="form-control" rows="3"></textarea>-->
+                  <!--</div>-->
+                  <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                  <!--</form>-->
+                  <!--</div>-->
+
+
+                  <!-- Posted Comments -->
+
+                  <!--&lt;!&ndash; Comment &ndash;&gt;-->
+                  <!--<div class="media">-->
+                  <!--<a class="pull-left" href="#">-->
+                  <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
+                  <!--</a>-->
+                  <!--<div class="media-body">-->
+                  <!--<h4 class="media-heading">Start Bootstrap-->
+                  <!--<small>August 25, 2014 at 9:30 PM</small>-->
+                  <!--</h4>-->
+                  <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante-->
+                  <!--sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra-->
+                  <!--turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue-->
+                  <!--felis in faucibus.-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--<hr>-->
+
+
+
+
+
+
+                </div>
+              </div>
+          <% end %>
         </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
 
@@ -523,6 +500,7 @@
   <!--footer end-->
 </section>
 <script type="application/javascript">
+
     $(document).ready(function () {
         $("#date-popover").popover({html: true, trigger: "manual"});
         $("#date-popover").hide();
@@ -555,4 +533,11 @@
         var to = $("#" + id).data("to");
         console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
+
+    $(document).ready(function () {
+        $('#file-upload').click(function () {
+            $('#real-file-upload').trigger('click');
+        });
+        $('a')
+    });
 </script>

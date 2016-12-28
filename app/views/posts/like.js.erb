@@ -1,0 +1,2 @@
+$('#post-<%= @post.id %>-likes').html("<%= pluralize(@post.votes_for.size,'like')  %>");
+
