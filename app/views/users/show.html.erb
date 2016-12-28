@@ -175,19 +175,19 @@
                 <p class="centered">
                     <a href="profile.html"><img src="/assets/img/profile.png" class="img-circle" width="60"></a></p>
                 <h5 class="centered"><%= @user.nickname %></h5>
-                <li class="mt"><a href="/newsfeed"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
+                <li class="mt"><a href="/main/newsfeed"> <em class="fa fa-dashboard"></em> <span>Home</span> </a>
                 </li>
                 <li class="sub-menu">
 
                 <li class="sub-menu">
-                    <a class="active" href="/profile">
+                    <a class="active" href="/main/profile">
                         <i class="fa fa-cogs"></i>
                         <span>Profile</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="/friends">
+                    <a href="/main/friends">
                         <i class="fa fa-th"></i>
                         <span>Fiends</span>
                     </a>
@@ -214,10 +214,11 @@
                             <img align="middle" src="/assets/img/profile.png" class="img-circle img-responsive" alt="Placeholder image"></a>
                         <div align="center">
                             <h1 class="text-center"><%= @user.nickname %></h1>
-                        </div>
-                        <% if not @same_user %>
+                            <p><strong>About me</strong></p>
+                            <p><%= @user.bio == '' ? 'No info' : @user.bio %> </p></div>
+                        <% if not @same_user and Friendship.where(user1_id:@user.id,user2_id:current_user.id).or(Friendship.where(user2_id:@user.id,user1_id:current_user.id)).count == 0 %>
 
-                            <%= link_to 'Send Friend Request', add_friend_user_path(:user_id => @user.id), class: 'btn btn-theme02', method: :put, remote: true, id: 'request-btn' %>
+                            <%= link_to 'Send Friend Request', add_friend_user_path(:user_id => @user.id), class: 'btn btn-theme02', method: :put , remote: true ,id:'request-btn'%>
                         <% end %>
                     </div>
 
@@ -272,6 +273,8 @@
                                     <% end %>
                                     <p id="post-<%= post.id %>-likes"><%= pluralize(post.votes_for.size, 'like') %></p>
 
+
+
                                 </div>
                             </div>
                         <% end %>
@@ -281,12 +284,49 @@
                 </div><!-- /col-lg-9 END SECTION MIDDLE -->
 
 
+                <!-- **********************************************************************************************************************************************************
+                RIGHT SIDEBAR CONTENT
+                *********************************************************************************************************************************************************** -->
+
+                <div class="col-lg-3 ds">
+                    <!--COMPLETED ACTIONS DONUTS CHART-->
+                    <h3>NOTIFICATIONS</h3>
+
+                    <% @requests.each do |request| %>
+                    <div class="desc">
+                        <div class="thumb">
+                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                        </div>
+                        <div class="details">
+                            <p>
+                                <muted><%= request.created_at.strftime('%B %-d, %Y at %I:%M %p') %></muted>
+                                <br/>
+                              <% other_user = User.find(request.user1_id == current_user.id ? request.user2_id : request.user1_id) %>
+                                <a href="/users/<%= request.user1_id == current_user.id ? request.user2_id : request.user1_id%>"></a>
+                              <%= other_user.nickname %> sent you a friend request.<br/>
+                            </p>
+                        </div>
+                    </div>
+                      <% end %>
+
+
+                </div><!-- /col-lg-3 -->
             </div>
             <! --/row -->
         </section>
     </section>
 
     <!--main content end-->
+    <!--footer start-->
+    <footer class="site-footer">
+        <div class="text-center">
+            2016
+            <a href="index.html.erb#" class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+    <!--footer end-->
 </section>
 
 

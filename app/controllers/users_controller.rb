@@ -15,6 +15,7 @@ class UsersController < ApplicationController
         @activities = PublicActivity::Activity.where(owner: @user).order(created_at: :desc).paginate(page: params[:page], per_page: 10)
         @posts = Post.where(user_id: @user.id)
         @same_user = current_user.id == @user.id
+        @requests = Friendship.where(user1_id:@user.id).or(Friendship.where(user2_id:@user.id))
     end
 
     # GET /users/new
