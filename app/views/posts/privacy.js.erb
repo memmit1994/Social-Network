@@ -1,0 +1,7 @@
+<% if @post.public %>
+$('#post-<%= @post.id %>-privacy-icon').removeClass('fa fa-lock');
+$('#post-<%= @post.id %>-privacy-icon').addClass('fa fa-unlock');
+<% else %>
+$('#post-<%= @post.id %>-privacy-icon').removeClass('fa fa-unlock');
+$('#post-<%= @post.id %>-privacy-icon').addClass('fa fa-lock');
+<% end %>

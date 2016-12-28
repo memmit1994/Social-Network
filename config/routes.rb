@@ -7,9 +7,10 @@ Rails.application.routes.draw do
 
     resources :comments, only: [:create, :destroy]
     resources :posts do
-      member do
-        put 'like' => 'posts#like'
-      end
+        member do
+            put 'like' => 'posts#like'
+            put 'privacy' => 'posts#privacy'
+        end
     end
 
     root to: 'main#newsfeed'
@@ -23,7 +24,7 @@ Rails.application.routes.draw do
             get :friends
             get :followers
             get :deactivate
-            put 'add_friend' =>'users#add_friend'
+            put 'add_friend' => 'users#add_friend'
         end
     end
 
